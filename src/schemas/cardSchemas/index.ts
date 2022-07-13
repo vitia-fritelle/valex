@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
 const cardTypeSchema = Joi.object({
-    cardId: Joi.number().required(),
+    employeeId: Joi.number().required(),
     type: Joi.string().required().valid(
         'groceries', 
-        'restaurants', 
+        'restaurant', 
         'transport', 
         'education', 
         'health',
@@ -12,9 +12,8 @@ const cardTypeSchema = Joi.object({
 });
 
 const cardAmountSchema = Joi.object({
-    cardId: Joi.number().required(),
     amount: Joi.number().required().greater(0),
-});
+}).unknown(true);
 
 const cardSchemas = {
     cardTypeSchema,

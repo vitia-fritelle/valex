@@ -5,8 +5,8 @@ import utils from "../../utils";
 async function createCard(_req:Request, res:Response, next:NextFunction) {
     try {
         const apiKey = res.locals.headers['x-api-key'];
-        const employeeId = parseInt(res.locals.body.id, 10);
-        const cardType = res.locals.headers.type;
+        const employeeId = parseInt(res.locals.body.employeeId, 10);
+        const cardType = res.locals.body.type;
 
         const {id: companyId} = await services.cardServices.isApiKeyValid(apiKey);
         const {fullName} = await services.cardServices.isEmployeeRegistered(employeeId, companyId);
@@ -32,10 +32,10 @@ async function activateCard(req: Request, res:Response, next:NextFunction) {
         await Promise.all([
             await services.cardServices.isExpired(expirationDate),
             await services.cardServices.hasPassword(cardPassword),
-            await services.cardServices.sameCvcs(cvc, securityCode),
-            await services.cardServices.has4Numbers(password),
+            await services.cardServices.sameCvcs(String(cvc), securityCode),
+            await services.cardServices.has4Numbers(String(password)),
         ]);
-        await services.cardServices.updatePassword(id, password);
+        await services.cardServices.updatePassword(id, String(password));
         res.sendStatus(200);
     } catch (e) {
         next(e)
@@ -64,7 +64,7 @@ async function blockCard(req: Request, res:Response, next:NextFunction) {
         await Promise.all([
             await services.cardServices.isExpired(expirationDate),
             await services.cardServices.isBlocked(isBlocked),
-            await services.cardServices.samePassword(cardPassword as string, password),
+            await services.cardServices.samePassword(cardPassword as string, String(password)),
         ]);
         await services.cardServices.blockCard(id);
         res.sendStatus(200);
@@ -80,7 +80,7 @@ async function unBlockCard(req: Request, res:Response, next:NextFunction) {
         await Promise.all([
             await services.cardServices.isExpired(expirationDate),
             await services.cardServices.isUnBlocked(isBlocked),
-            await services.cardServices.samePassword(cardPassword as string, password),
+            await services.cardServices.samePassword(cardPassword as string, String(password)),
         ]);
         await services.cardServices.unBlockCard(id);
         res.sendStatus(200);

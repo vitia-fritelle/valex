@@ -75,7 +75,7 @@ async function isActive(password: string|undefined) {
 }
 
 async function sameCvcs(cvc: string, securityCode: string) {
-    if (cvc !== securityCode) {
+    if (cvc !== cryptr.decrypt(securityCode)) {
         throw new utils.errorUtils.CustomError(422, 'Problema no código de segurança do cartão.');
     }
 }

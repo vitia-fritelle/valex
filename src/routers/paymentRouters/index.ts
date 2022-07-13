@@ -9,7 +9,7 @@ const { payment } = controllers.paymentControllers;
 
 const router = Router();
 
-router.put(
+router.post(
     '/',
     validateSchema({body: cardAmountSchema}),
     payment,

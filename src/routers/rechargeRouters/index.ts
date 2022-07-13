@@ -9,7 +9,7 @@ const { recharge } = controllers.rechargeControllers;
 
 const router = Router();
 
-router.put(
+router.post(
     '/',
     validateSchema({body: cardAmountSchema}),
     recharge,
