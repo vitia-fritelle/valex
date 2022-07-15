@@ -25,7 +25,6 @@ function validateSchema(validations: ValidationTypes) {
 
 const validationMiddlewares = {
     validateSchema,
-
 };
 
 export default validationMiddlewares;
